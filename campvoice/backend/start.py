@@ -77,6 +77,15 @@ def main() -> None:
     database_url = _require_env("DATABASE_URL")
     _require_env("SECRET_KEY")
 
+    try:
+        import bcrypt
+        import passlib
+
+        print(f"bcrypt={getattr(bcrypt, '__version__', 'unknown')}")
+        print(f"passlib={getattr(passlib, '__version__', 'unknown')}")
+    except Exception as e:
+        print(f"version_check_failed={e}")
+
     _wait_for_db(database_url)
 
     subprocess.check_call(["alembic", "upgrade", "head"])
