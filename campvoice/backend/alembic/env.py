@@ -75,13 +75,18 @@ async def run_async_migrations() -> None:
     connect_args = {}
     if configuration["sqlalchemy.url"].startswith("postgresql+asyncpg://"):
         url = make_url(configuration["sqlalchemy.url"])
-        if settings.ENVIRONMENT == "development":
-            ctx = ssl.create_default_context()
-            ctx.check_hostname = False
-            ctx.verify_mode = ssl.CERT_NONE
-            connect_args = {"ssl": ctx}
-        else:
-            connect_args = {"ssl": ssl.create_default_context()}
+        sslmode = (url.query.get("sslmode") or "").lower() if url.query else ""
+        host = (url.host or "").lower()
+        use_ssl = sslmode not in {"disable", "allow"} and ("railway.internal" not in host)
+
+        if use_ssl:
+            if settings.ENVIRONMENT == "development":
+                ctx = ssl.create_default_context()
+                ctx.check_hostname = False
+                ctx.verify_mode = ssl.CERT_NONE
+                connect_args = {"ssl": ctx}
+            else:
+                connect_args = {"ssl": ssl.create_default_context()}
 
         if url.host and "pooler.supabase.com" in url.host:
             connect_args["statement_cache_size"] = 0
