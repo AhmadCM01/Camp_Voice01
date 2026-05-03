@@ -13,6 +13,7 @@ from app.config import settings
 from app.routers import api_router
 
 from contextlib import asynccontextmanager
+import traceback
 
 # Rate limiter — keyed by client IP
 limiter = Limiter(key_func=get_remote_address, default_limits=["60/minute"])
@@ -59,7 +60,8 @@ async def add_security_headers(request: Request, call_next):
 # Global exception handler
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
-    print(f"Unhandled Exception: {exc}")
+    print(f"Unhandled Exception: {repr(exc)}")
+    traceback.print_exc()
     return JSONResponse(
         status_code=500,
         content={"detail": "Something went wrong. Please try again later.", "code": "SERVER_ERROR"}
