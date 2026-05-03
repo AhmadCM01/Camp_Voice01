@@ -24,6 +24,8 @@ export default function HomePage() {
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
+  const showComingSoon = () => openDownload(androidUrl, 'Android distribution coming soon.');
+
   return (
     <div className="min-h-screen bg-[#FFFDF5] text-[#2A2A2A]">
       {/* Hero Section */}
