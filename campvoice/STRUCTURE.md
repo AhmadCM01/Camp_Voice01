@@ -1,0 +1,91 @@
+# Folder Structure (High-Level)
+
+```text
+campvoice/
+  backend/
+    alembic/
+      env.py
+      versions/
+        8c56ebba2fae_initial.py
+        add_login_attempt_limits.py
+    app/
+      main.py
+      config.py
+      database.py
+      models/
+        user.py
+        complaint.py
+        notification.py
+      routers/
+        __init__.py
+        auth.py
+        complaints.py
+        admin.py
+        notifications.py
+        meta.py
+      schemas/
+        auth.py
+        user.py
+        notification.py
+      services/
+        auth_service.py
+        complaint_service.py
+      utils/
+        eligibility.py
+        abu_directory.py
+
+  campvoice-web/
+    next.config.mjs
+    public/
+      downloads/
+        .gitkeep
+    src/
+      app/
+        (auth)/
+          login/page.tsx
+          register/page.tsx
+        (dashboard)/
+          admin/page.tsx
+          dashboard/page.tsx
+          notifications/page.tsx
+        (marketing)/
+          page.tsx
+          mobile/page.tsx
+      components/
+        layout/
+          header.tsx
+          sidebar.tsx
+        ui/
+          input.tsx
+          select.tsx
+      hooks/
+        useAuth.ts
+        useNotifications.ts
+      lib/
+        api.ts
+
+  campvoice-mobile/
+    app.json
+    eas.json
+    RELEASE.md
+    src/
+      config/env.ts
+      navigation/
+        AppNavigator.tsx
+        TabNavigator.tsx
+      screens/
+        auth/
+          LoginScreen.tsx
+          RegisterScreen.tsx
+        dashboard/
+          HomeScreen.tsx
+          ProfileScreen.tsx
+          NotificationsScreen.tsx
+        complaints/
+          NewComplaintScreen.tsx
+      store/
+        authStore.ts
+      lib/
+        api.ts
+```
+
