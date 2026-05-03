@@ -15,11 +15,13 @@ class RegisterRequest(BaseModel):
     department: str = Field(..., min_length=2, max_length=100)
     faculty: str = Field(..., min_length=2, max_length=100)
     level: str = Field(..., min_length=2, max_length=20)
-    password: str = Field(..., min_length=8)
+    password: str = Field(..., min_length=8, max_length=72)
 
     @field_validator('password')
     @classmethod
     def password_strength(cls, v: str) -> str:
+        if len(v.encode("utf-8")) > 72:
+            raise ValueError('Password must be 72 bytes or fewer.')
         if not PASSWORD_PATTERN.match(v):
             raise ValueError(
                 'Password must be at least 8 characters and contain '
@@ -64,11 +66,13 @@ class ForgotPasswordRequest(BaseModel):
 
 class ResetPasswordRequest(BaseModel):
     token: str
-    new_password: str = Field(..., min_length=8)
+    new_password: str = Field(..., min_length=8, max_length=72)
 
     @field_validator('new_password')
     @classmethod
     def password_strength(cls, v: str) -> str:
+        if len(v.encode("utf-8")) > 72:
+            raise ValueError('Password must be 72 bytes or fewer.')
         if not PASSWORD_PATTERN.match(v):
             raise ValueError(
                 'Password must be at least 8 characters and contain '
