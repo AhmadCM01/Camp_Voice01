@@ -12,7 +12,8 @@ if settings.DATABASE_URL.startswith("postgresql+asyncpg://"):
     use_ssl = sslmode not in {"disable", "allow"} and ("railway.internal" not in host)
 
     if use_ssl:
-        if settings.ENVIRONMENT == "development":
+        is_railway_public = host.endswith(".railway.app") or (".railway.app" in host)
+        if settings.ENVIRONMENT == "development" or is_railway_public:
             ctx = ssl.create_default_context()
             ctx.check_hostname = False
             ctx.verify_mode = ssl.CERT_NONE

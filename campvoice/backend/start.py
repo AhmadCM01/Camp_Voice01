@@ -15,7 +15,25 @@ def _require_env(name: str) -> str:
 async def _probe_postgres(dsn: str) -> None:
     import asyncpg
 
-    conn = await asyncpg.connect(dsn=dsn, statement_cache_size=0)
+    from sqlalchemy.engine.url import make_url
+    import ssl
+
+    url = make_url(dsn)
+    sslmode = (url.query.get("sslmode") or "").lower() if url.query else ""
+    host = (url.host or "").lower()
+
+    ssl_ctx = None
+    if sslmode not in {"disable", "allow"} and ("railway.internal" not in host):
+        is_railway_public = host.endswith(".railway.app") or (".railway.app" in host)
+        if os.getenv("ENVIRONMENT", "").lower() == "development" or is_railway_public:
+            ctx = ssl.create_default_context()
+            ctx.check_hostname = False
+            ctx.verify_mode = ssl.CERT_NONE
+            ssl_ctx = ctx
+        else:
+            ssl_ctx = ssl.create_default_context()
+
+    conn = await asyncpg.connect(dsn=dsn, statement_cache_size=0, ssl=ssl_ctx)
     try:
         await conn.execute("select 1")
     finally:
@@ -78,4 +96,3 @@ if __name__ == "__main__":
     except Exception as e:
         print(str(e))
         sys.exit(1)
-
