@@ -24,7 +24,12 @@ async def _probe_postgres(dsn: str) -> None:
 
     ssl_ctx = None
     if sslmode not in {"disable", "allow"} and ("railway.internal" not in host):
-        is_railway_public = host.endswith(".railway.app") or (".railway.app" in host)
+        is_railway_public = (
+            host.endswith(".railway.app")
+            or (".railway.app" in host)
+            or host.endswith(".rlwy.net")
+            or (".rlwy.net" in host)
+        )
         if os.getenv("ENVIRONMENT", "").lower() == "development" or is_railway_public:
             ctx = ssl.create_default_context()
             ctx.check_hostname = False
