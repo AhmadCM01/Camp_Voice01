@@ -9,8 +9,8 @@ import { Menu, X } from 'lucide-react';
 const navLinks = [
   { href: '#hero', label: 'Home' },
   { href: '#how-it-works', label: 'How It Works' },
-  { href: '#students', label: 'For Students' },
-  { href: '#admin', label: 'For Admin' },
+  { href: '/login', label: 'For Students' },
+  { href: '/admin/login', label: 'For Admin' },
 ];
 
 export function Navbar() {
@@ -56,13 +56,23 @@ export function Navbar() {
             <nav className="hidden md:flex items-center gap-7">
               {isMarketing ? (
                 navLinks.map((link) => (
-                  <button
-                    key={link.href}
-                    onClick={() => scrollTo(link.href)}
-                    className="text-sm font-semibold text-[#525252] hover:text-[#1A531A] transition-colors"
-                  >
-                    {link.label}
-                  </button>
+                  link.href.startsWith('#') ? (
+                    <button
+                      key={link.href}
+                      onClick={() => scrollTo(link.href)}
+                      className="text-sm font-semibold text-[#525252] hover:text-[#1A531A] transition-colors"
+                    >
+                      {link.label}
+                    </button>
+                  ) : (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className="text-sm font-semibold text-[#525252] hover:text-[#1A531A] transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  )
                 ))
               ) : (
                 [{ href: '/', label: 'Home' }, { href: '/login', label: 'Sign In' }].map((l) => (
@@ -110,13 +120,24 @@ export function Navbar() {
       >
         <nav className="flex flex-col gap-1">
           {isMarketing ? navLinks.map((link) => (
-            <button
-              key={link.href}
-              onClick={() => scrollTo(link.href)}
-              className="text-xl font-bold text-[#2A2A2A] py-3.5 border-b border-[#E6EBE6] text-left hover:text-[#1A531A] transition-colors"
-            >
-              {link.label}
-            </button>
+            link.href.startsWith('#') ? (
+              <button
+                key={link.href}
+                onClick={() => scrollTo(link.href)}
+                className="text-xl font-bold text-[#2A2A2A] py-3.5 border-b border-[#E6EBE6] text-left hover:text-[#1A531A] transition-colors"
+              >
+                {link.label}
+              </button>
+            ) : (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileOpen(false)}
+                className="text-xl font-bold text-[#2A2A2A] py-3.5 border-b border-[#E6EBE6] text-left hover:text-[#1A531A] transition-colors"
+              >
+                {link.label}
+              </Link>
+            )
           )) : (
             [{ href: '/', label: 'Home' }].map((l) => (
               <Link key={l.href} href={l.href} onClick={() => setMobileOpen(false)} className="text-xl font-bold text-[#2A2A2A] py-3.5 border-b border-[#E6EBE6] hover:text-[#1A531A] transition-colors">
