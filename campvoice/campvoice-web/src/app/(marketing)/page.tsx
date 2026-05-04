@@ -359,6 +359,47 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* FAQ Section */}
+      <section className="py-24 px-4 bg-[#FFFDF5]">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-black text-center mb-4">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-lg text-[#525252] max-w-3xl mx-auto">
+              Quick answers to help you get started with CampVoice.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4">
+            {[{
+              q: 'How does complaint tracking work?',
+              a: 'After you submit a complaint, CampVoice generates a tracking number. You can monitor status updates (e.g., Submitted → In Review → In Progress → Resolved) from your dashboard.',
+            }, {
+              q: 'Is my identity anonymous to everyone?',
+              a: 'Your details are protected from the public. University administrators handling the report may still need your information to follow up and resolve the issue effectively.',
+            }, {
+              q: 'What types of issues can I report?',
+              a: 'Maintenance, security, hostel issues, utilities, academic-related concerns, and other campus problems that affect student wellbeing.',
+            }, {
+              q: 'How fast will I get a response?',
+              a: 'Response time depends on the category and workload, but you will always see status updates as your complaint progresses.',
+            }, {
+              q: 'Can I attach photos or evidence?',
+              a: 'Yes, attachments are supported where available. If uploads are temporarily unavailable on your device, you can still submit the report and add details in the description.',
+            }, {
+              q: 'Will I receive notifications?',
+              a: 'Yes. You can receive notifications when your complaint status changes. Email notifications are available, and push notifications are supported on the mobile app.',
+            }].map((item) => (
+              <div key={item.q} className="bg-[#F8FBF8] border border-[#E7E5E4] rounded-2xl p-6">
+                <h3 className="text-lg font-bold text-[#2A2A2A] mb-2">{item.q}</h3>
+                <p className="text-[#525252] leading-relaxed">{item.a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-20 px-4 bg-[#F8FBF8]">
         <div className="max-w-2xl mx-auto text-center">
