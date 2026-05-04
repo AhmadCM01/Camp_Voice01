@@ -128,7 +128,8 @@ async def update_complaint_status(db: AsyncSession, complaint_id: str, admin_use
     await db.commit()
     await db.refresh(complaint)
 
-    if old_status != complaint.status or update_data.admin_response:
+    attended_statuses = {"in_progress", "resolved"}
+    if (old_status != complaint.status and complaint.status in attended_statuses) or update_data.admin_response:
         send_status_update(student.email, complaint.tracking_no, old_status, complaint.status, complaint.admin_response)
 
     return complaint

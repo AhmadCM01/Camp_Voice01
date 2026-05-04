@@ -59,6 +59,8 @@ class ComplaintListResponse(BaseModel):
     category: str
     status: str
     priority: str
+    admin_response: Optional[str] = None
+    attachment_url: Optional[str] = None
     created_at: datetime
     updated_at: datetime
 

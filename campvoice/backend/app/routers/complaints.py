@@ -111,7 +111,12 @@ async def track_complaint(
     complaint = result.scalars().first()
     if not complaint or complaint.student_id != current_user.id:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Not found", headers={"code": "NOT_FOUND"})
-    return {"status": complaint.status, "id": complaint.id}
+    return {
+        "status": complaint.status,
+        "id": complaint.id,
+        "admin_response": complaint.admin_response,
+        "attachment_url": complaint.attachment_url,
+    }
 
 @router.post("/{id}/attachment")
 async def upload_attachment(

@@ -42,6 +42,7 @@ export default function AdminDashboard() {
     location?: string | null;
     admin_response?: string | null;
     internal_notes?: string | null;
+    attachment_url?: string | null;
   };
   
   const { data, isLoading, isError } = useQuery({
@@ -292,6 +293,19 @@ export default function AdminDashboard() {
 
                   {expandedId === complaint.id ? (
                     <div className="border-t border-border p-5 grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {complaint.attachment_url ? (
+                        <div className="md:col-span-2">
+                          <div className="text-xs font-semibold text-muted-foreground uppercase">Attachment</div>
+                          <a
+                            href={complaint.attachment_url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-sm text-olive-700 underline break-all"
+                          >
+                            View uploaded file
+                          </a>
+                        </div>
+                      ) : null}
                       <div className="space-y-2">
                         <div className="text-xs font-semibold text-muted-foreground uppercase">Admin Response (Visible to Student)</div>
                         <Textarea

@@ -125,7 +125,7 @@ export default function StudentDashboard() {
             </div>
           ) : (
             <div className="space-y-4">
-              {complaints.map((complaint: { id: string; title: string; description: string; category: string; created_at: string; status: string }) => (
+              {complaints.map((complaint: { id: string; title: string; description: string; category: string; created_at: string; status: string; admin_response?: string | null; attachment_url?: string | null }) => (
                 <div key={complaint.id} className="flex items-start justify-between p-4 rounded-lg border border-[#E7E5E4] hover:border-[#DCFCE7] hover:bg-[#F0FDF4] transition-colors bg-[#FDFCF8]">
                   <div className="flex gap-4">
                     <div className="mt-1">
@@ -136,6 +136,24 @@ export default function StudentDashboard() {
                       <p className="text-sm text-[#475569] line-clamp-2 mt-1">
                         {complaint.description || 'No description provided'}
                       </p>
+                      {complaint.admin_response ? (
+                        <div className="mt-3 rounded-md border border-[#BBF7D0] bg-[#F0FDF4] px-3 py-2">
+                          <div className="text-xs font-semibold text-[#14532D]">Admin response</div>
+                          <div className="text-sm text-[#14532D]">{complaint.admin_response}</div>
+                        </div>
+                      ) : null}
+                      {complaint.attachment_url ? (
+                        <div className="mt-2">
+                          <a
+                            href={complaint.attachment_url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-xs font-semibold text-[#1A531A] underline"
+                          >
+                            View your attachment
+                          </a>
+                        </div>
+                      ) : null}
                       <div className="flex items-center gap-3 mt-2 text-xs text-[#94A3B8]">
                         <span className="font-medium bg-[#F3F4F6] px-2 py-0.5 rounded text-[#475569]">{complaint.category}</span>
                         <span>•</span>

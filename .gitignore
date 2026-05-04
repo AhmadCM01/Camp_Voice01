@@ -19,6 +19,8 @@ build.log
 expo-start.err
 expo-start.json
 
+eas-build.log
+
 **/__pycache__/
 **/*.pyc
 
