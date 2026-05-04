@@ -8,7 +8,6 @@ import { toast } from 'sonner';
 
 export default function HomePage() {
   const androidUrl = process.env.NEXT_PUBLIC_ANDROID_DOWNLOAD_URL;
-  const iosUrl = process.env.NEXT_PUBLIC_IOS_DOWNLOAD_URL;
 
   const scrollToDownload = () => {
     const el = document.getElementById('mobile-app-download');
@@ -24,12 +23,10 @@ export default function HomePage() {
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
-  const showComingSoon = () => openDownload(androidUrl, 'Android distribution coming soon.');
-
   return (
     <div className="min-h-screen bg-[#FFFDF5] text-[#2A2A2A]">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex flex-col justify-center items-center text-center px-4 pt-24 pb-20 overflow-hidden">
+      <section id="hero" className="relative min-h-screen flex flex-col justify-center items-center text-center px-4 pt-24 pb-20 overflow-hidden">
         {/* Background decoration */}
         <div
           aria-hidden
@@ -156,7 +153,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6">
             <div className="bg-[#F8FBF8] border border-[#E6EBE6] rounded-3xl p-8">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-12 h-12 rounded-2xl bg-[#FFFDF5] border border-[#1A531A] flex items-center justify-center">
@@ -178,34 +175,12 @@ export default function HomePage() {
                 Download APK <ArrowRight className="w-4 h-4" />
               </button>
             </div>
-
-            <div className="bg-[#F8FBF8] border border-[#E6EBE6] rounded-3xl p-8">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-12 h-12 rounded-2xl bg-[#FFFDF5] border border-[#1A531A] flex items-center justify-center">
-                  <Smartphone className="w-6 h-6 text-[#1A531A]" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-[#2A2A2A]">iOS</h3>
-                  <p className="text-sm text-[#525252]">TestFlight / App Store</p>
-                </div>
-              </div>
-              <p className="text-[#525252] leading-relaxed mb-6">
-                iOS apps are distributed via TestFlight or the App Store. Use the button below to open the latest iOS install link.
-              </p>
-              <button
-                type="button"
-                onClick={() => openDownload(iosUrl, 'iOS download link coming soon.')}
-                className="inline-flex items-center gap-2 border-2 border-[#1A531A] text-[#1A531A] font-semibold rounded-full px-6 py-3 hover:bg-[#FFFDF5] transition-colors"
-              >
-                Get on iOS <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
           </div>
         </div>
       </section>
 
       {/* Categories Section */}
-      <section className="py-24 px-4 bg-[#FFFDF5]">
+      <section id="students" className="py-24 px-4 bg-[#FFFDF5]">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-black text-center mb-4 text-[#2A2A2A]">
@@ -252,7 +227,7 @@ export default function HomePage() {
       </section>
 
       {/* Trust Indicators */}
-      <section className="py-20 px-4 bg-[#1A531A] text-white">
+      <section id="admin" className="py-20 px-4 bg-[#1A531A] text-white">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-5xl font-black mb-5">
             Trusted by the ABU Community
@@ -326,20 +301,11 @@ export default function HomePage() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                 <button
                   type="button"
-                  onClick={showComingSoon}
-                  className="flex items-center justify-center gap-3 bg-[#FFFDF5] text-[#1A531A] px-6 py-3.5 rounded-xl border border-[#E6EBE6] font-semibold opacity-70 cursor-not-allowed"
+                  onClick={() => openDownload(androidUrl, 'Android APK link coming soon.')}
+                  className="flex items-center justify-center gap-3 bg-[#FFFDF5] text-[#1A531A] px-6 py-3.5 rounded-xl border border-[#E6EBE6] font-semibold"
                 >
                   <Smartphone className="w-5 h-5" />
-                  Google Play (Coming Soon)
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => toast.info('iOS distribution coming soon.')}
-                  className="flex items-center justify-center gap-3 bg-[#FFFDF5] text-[#1A531A] px-6 py-3.5 rounded-xl border border-[#E6EBE6] font-semibold opacity-70 cursor-not-allowed"
-                >
-                  <Smartphone className="w-5 h-5" />
-                  App Store (Coming Soon)
+                  Download Android APK
                 </button>
               </div>
             </div>
