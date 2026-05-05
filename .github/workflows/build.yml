@@ -6,11 +6,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        # Fixed path to match your nested structure
-        working-directory: ./campvoice/campvoice-mobile 
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -20,19 +15,19 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          # Disabling the automatic cache for this specific run 
-          # to prevent it from failing if it can't find the files immediately
-          # cache: 'gradle' 
 
-      - name: Grant Execute Permission for Gradlew
-        run: chmod +x gradlew
+      - name: Grant Execute Permission
+        # This path must be exact: campvoice/campvoice-mobile/gradlew
+        run: chmod +x campvoice/campvoice-mobile/gradlew
 
-      - name: Build APK
+      - name: Build with Gradle
+        # Running from the specific mobile subfolder
         run: ./gradlew assembleDebug
+        working-directory: campvoice/campvoice-mobile
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: CampVoice-MVP-APK
-          # Path must also include the full nested structure
+          # This must match your actual nesting in the repo
           path: campvoice/campvoice-mobile/app/build/outputs/apk/debug/app-debug.apk
