@@ -37,20 +37,34 @@ jobs:
         cache: 'npm'
         cache-dependency-path: campvoice/campvoice-mobile/package-lock.json
         
+    - name: Discover directory structure
+      run: |
+        echo "Repository structure:"
+        find . -maxdepth 3 -type d | sort
+        echo ""
+        echo "Looking for gradlew:"
+        find . -name "gradlew" -type f
+        echo ""
+        echo "Looking for package.json:"
+        find . -name "package.json" -type f | grep -E "(campvoice|mobile)"
+      
     - name: Install dependencies
       run: |
-        cd campvoice/campvoice-mobile
-        npm ci
+        MOBILE_DIR=$(find . -name "package.json" -type f | grep -E "(campvoice|mobile)" | head -1 | xargs dirname)
+        echo "Installing dependencies in: $MOBILE_DIR"
+        cd "$MOBILE_DIR" && npm ci
       
     - name: Grant execute permission for gradlew
       run: |
-        cd campvoice/campvoice-mobile/android
-        chmod +x gradlew
+        GRADLEW_DIR=$(find . -name "gradlew" -type f | head -1 | xargs dirname)
+        echo "Gradle directory: $GRADLEW_DIR"
+        cd "$GRADLEW_DIR" && chmod +x gradlew
         
     - name: Build Android APK
       run: |
-        cd campvoice/campvoice-mobile/android
-        ./gradlew assembleDebug
+        GRADLEW_DIR=$(find . -name "gradlew" -type f | head -1 | xargs dirname)
+        echo "Building APK in: $GRADLEW_DIR"
+        cd "$GRADLEW_DIR" && ./gradlew assembleDebug
       
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
