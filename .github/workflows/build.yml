@@ -16,12 +16,12 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Grant Execute Permission
-        # This path must be exact: campvoice/campvoice-mobile/gradlew
-        run: chmod +x campvoice/campvoice-mobile/gradlew
+      - name: Find and Grant Permission
+        # This command finds every gradlew file in the repo and makes it executable
+        run: find . -name "gradlew" -exec chmod +x {} +
 
       - name: Build with Gradle
-        # Running from the specific mobile subfolder
+        # We target the specific directory where your mobile code sits
         run: ./gradlew assembleDebug
         working-directory: campvoice/campvoice-mobile
 
@@ -29,5 +29,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: CampVoice-MVP-APK
-          # This must match your actual nesting in the repo
-          path: campvoice/campvoice-mobile/app/build/outputs/apk/debug/app-debug.apk
+          # This path covers the nested structure shown in your images
+          path: "**/app/build/outputs/apk/debug/app-debug.apk"
