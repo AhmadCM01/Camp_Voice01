@@ -38,20 +38,19 @@ jobs:
         cache-dependency-path: campvoice/campvoice-mobile/package-lock.json
         
     - name: Install dependencies
-      run: |
-        find . -name "package.json" -path "*/campvoice-mobile/*" | head -1 | xargs dirname | xargs -I {} cd {} && npm ci
+      working-directory: ./campvoice/campvoice-mobile
+      run: npm ci
       
     - name: Grant execute permission for gradlew
+      working-directory: ./campvoice/campvoice-mobile/android
       run: |
-        GRADLEW_PATH=$(find . -name "gradlew" -path "*/campvoice-mobile/*" | head -1)
-        GRADLEW_DIR=$(dirname "$GRADLEW_PATH")
-        cd "$GRADLEW_DIR" && chmod +x ./gradlew
-      
+        if [ "$RUNNER_OS" == "Linux" ]; then
+          chmod +x gradlew
+        fi
+        
     - name: Build Android APK
-      run: |
-        GRADLEW_PATH=$(find . -name "gradlew" -path "*/campvoice-mobile/*" | head -1)
-        GRADLEW_DIR=$(dirname "$GRADLEW_PATH")
-        cd "$GRADLEW_DIR" && ./gradlew assembleDebug
+      working-directory: ./campvoice/campvoice-mobile/android
+      run: ./gradlew assembleDebug
       
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
