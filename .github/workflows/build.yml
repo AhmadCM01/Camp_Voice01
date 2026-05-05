@@ -1,0 +1,57 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        
+    - name: Cache Gradle packages
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+          
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        cache-dependency-path: campvoice/campvoice-mobile/package-lock.json
+        
+    - name: Install dependencies
+      working-directory: ./campvoice/campvoice-mobile
+      run: npm ci
+      
+    - name: Grant execute permission for gradlew
+      working-directory: ./campvoice/campvoice-mobile
+      run: chmod +x ./gradlew
+      
+    - name: Build Android APK
+      working-directory: ./campvoice/campvoice-mobile
+      run: ./gradlew assembleDebug
+      
+    - name: Upload APK artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: android-apk
+        path: campvoice/campvoice-mobile/app/build/outputs/apk/debug/app-debug.apk
+        retention-days: 30
