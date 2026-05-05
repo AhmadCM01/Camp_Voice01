@@ -16,18 +16,24 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Find and Grant Permission
-        # This command finds every gradlew file in the repo and makes it executable
-        run: find . -name "gradlew" -exec chmod +x {} +
-
-      - name: Build with Gradle
-        # We target the specific directory where your mobile code sits
-        run: ./gradlew assembleDebug
-        working-directory: campvoice/campvoice-mobile
+      - name: Build APK (Auto-Path)
+        run: |
+          # 1. Find where gradlew is located
+          GRADLEW_PATH=$(find . -name "gradlew" | head -n 1)
+          GRADLEW_DIR=$(dirname "$GRADLEW_PATH")
+          
+          echo "Found gradlew in: $GRADLEW_DIR"
+          
+          # 2. Grant permission
+          chmod +x "$GRADLEW_PATH"
+          
+          # 3. Change to that directory and build
+          cd "$GRADLEW_DIR"
+          ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: CampVoice-MVP-APK
-          # This path covers the nested structure shown in your images
+          # Using a wildcard to find the APK wherever it was built
           path: "**/app/build/outputs/apk/debug/app-debug.apk"
