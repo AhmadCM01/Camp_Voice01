@@ -6,10 +6,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # This line tells GitHub to run commands inside your mobile folder
     defaults:
       run:
-        working-directory: ./campvoice-mobile 
+        # Fixed path to match your nested structure
+        working-directory: ./campvoice/campvoice-mobile 
 
     steps:
       - name: Checkout Code
@@ -20,7 +20,9 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: 'gradle'
+          # Disabling the automatic cache for this specific run 
+          # to prevent it from failing if it can't find the files immediately
+          # cache: 'gradle' 
 
       - name: Grant Execute Permission for Gradlew
         run: chmod +x gradlew
@@ -32,5 +34,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: CampVoice-MVP-APK
-          # Path must match where the file ends up inside the mobile folder
-          path: campvoice-mobile/app/build/outputs/apk/debug/app-debug.apk
+          # Path must also include the full nested structure
+          path: campvoice/campvoice-mobile/app/build/outputs/apk/debug/app-debug.apk
