@@ -1,0 +1,9 @@
+node_modules/
+.expo/
+.expo-home/
+dist/
+web-build/
+android/
+ios/
+*.log
+eas-build-page.html

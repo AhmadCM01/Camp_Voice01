@@ -2,6 +2,7 @@
   "expo": {
     "name": "campvoice-mobile",
     "slug": "campvoice-mobile",
+    "scheme": "campvoice",
     "version": "1.0.0",
     "jsEngine": "hermes",
     "orientation": "portrait",

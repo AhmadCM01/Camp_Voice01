@@ -1,5 +1,8 @@
 .DS_Store
 Thumbs.db
+.idea/
+**/.idea/
+.vscode/
 
 .env
 .env.*
@@ -11,8 +14,10 @@ node_modules/
 
 dist/
 build/
+out/
 
 *.tgz
+*.log
 
 build.log
 
@@ -20,6 +25,7 @@ expo-start.err
 expo-start.json
 
 eas-build.log
+assembleRelease.log
 
 **/__pycache__/
 **/*.pyc
@@ -28,6 +34,8 @@ eas-build.log
 
 **/venv/
 **/.venv/
+**/.gradle/
+**/.gradle-home/
 
 campvoice/backend/campvoice.db
 campvoice/backend/*.sqlite
@@ -35,3 +43,5 @@ campvoice/backend/*.sqlite3
 
 .trae/
 .tmp/
+
+campvoice/campvoice-mobile/eas-build-page.html

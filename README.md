@@ -1,97 +1,68 @@
-# CampVoice
+# CampVoice Repository
 
-CampVoice is a student feedback and complaint tracking platform (Web + Mobile + API) built for Ahmadu Bello University (ABU). Students can submit complaints, track status, and receive updates when an admin attends to their complaint.
+CampVoice is a multi-platform student feedback and complaint management system built for Ahmadu Bello University (ABU). This repository contains the backend API, web application, and mobile application in one workspace.
 
-## SDLC Model Used
+## Repository Overview
 
-This project was built using an **Agile (Iterative/Incremental) SDLC approach**:
+- `campvoice/backend` - FastAPI backend with SQLAlchemy, Alembic, and PostgreSQL/Supabase support
+- `campvoice/campvoice-web` - Next.js web client for students and administrators
+- `campvoice/campvoice-mobile` - Expo React Native mobile app
+- `.github/workflows` - GitHub Actions automation for Android builds
 
-- Requirements were implemented in small increments (authentication, complaints, admin workflow, notifications).
-- Each increment was tested end-to-end (UI → API → DB) and refined based on feedback.
-- MVP scope was prioritized first, then UX improvements (design tokens, selectors, error handling) were layered on.
+## What The Project Does
 
-## Repository Layout
+CampVoice helps students:
 
-- `backend/` — FastAPI + async SQLAlchemy + Alembic migrations
-- `campvoice-web/` — Next.js (App Router) web app
-- `campvoice-mobile/` — Expo React Native mobile app
+- submit complaints or feedback
+- track complaint progress
+- receive response notifications
+- use the platform from either web or mobile
 
-See [STRUCTURE.md](file:///c:/Users/USER/OneDrive/Documents/Camp_Voice/campvoice/STRUCTURE.md) for a clean folder map.
+## Stack
 
-## Features
+- Backend: FastAPI, SQLAlchemy, Alembic, PostgreSQL
+- Web: Next.js, TypeScript, Tailwind CSS
+- Mobile: Expo, React Native, TypeScript
 
-- Student registration & login (email or matric)
-- Complaint submission & tracking
-- Admin dashboard: search, filter, update status, add responses/notes
-- Notifications created when complaints are attended to
-  - Backend stores notifications in DB
-  - Web: notifications page
-  - Mobile: notifications screen
-- ABU faculty → department selector
-  - API provides directory at `GET /api/v1/meta/abu-directory`
-  - Web & Mobile registration use it
-- Login protection
-  - Rate limits on auth endpoints (per IP)
-  - Per-account lockout after repeated failed password attempts (migration required)
+## Quick Start
 
-## Run Locally
-
-### Backend (FastAPI)
-
-1. Configure `backend/.env`:
-   - `DATABASE_URL` must point to a working Postgres database.
-   - If you use Supabase, copy the **exact connection string** from Supabase dashboard.
-
-2. Run:
+### Backend
 
 ```bash
-cd backend
+cd campvoice/backend
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+alembic upgrade head
 python -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
-Open:
-- API docs: `http://127.0.0.1:8000/docs`
-- Health: `http://127.0.0.1:8000/api/v1/health`
-
-### Web (Next.js)
+### Web
 
 ```bash
-cd campvoice-web
+cd campvoice/campvoice-web
 npm install
 npm run dev
 ```
 
-Open `http://localhost:3000`.
-
-The web app uses a Next.js proxy for API calls:
-- Requests to `/api/v1/*` are forwarded to `CAMPVOICE_API_PROXY_TARGET`.
-
-### Mobile (Expo)
+### Mobile
 
 ```bash
-cd campvoice-mobile
+cd campvoice/campvoice-mobile
 npm install
 npx expo start -c
 ```
 
-API base URL:
-- Android emulator uses `http://10.0.2.2:8000/api/v1`
-- Physical phone must use your machine LAN IP via `EXPO_PUBLIC_API_URL`
+## Documentation
 
-## Deploy (Vercel)
+- Main project guide: [`campvoice/README.md`](./campvoice/README.md)
+- Repository structure: [`campvoice/STRUCTURE.md`](./campvoice/STRUCTURE.md)
+- Backend setup: [`campvoice/backend/README.md`](./campvoice/backend/README.md)
+- Web setup: [`campvoice/campvoice-web/README.md`](./campvoice/campvoice-web/README.md)
+- Mobile release notes: [`campvoice/campvoice-mobile/RELEASE.md`](./campvoice/campvoice-mobile/RELEASE.md)
 
-Web deployment is on Vercel, but the API must be hosted separately.
+## GitHub Repository
 
-1. Deploy backend (Render/Fly/Railway/etc.)
-2. Set Vercel env:
-   - `CAMPVOICE_API_PROXY_TARGET=https://<your-backend-host>`
-3. Deploy `campvoice-web` to Vercel.
+The configured `origin` remote points to:
 
-## Mobile Downloads
-
-Build and publish links are documented in [campvoice-mobile/RELEASE.md](file:///c:/Users/USER/OneDrive/Documents/Camp_Voice/campvoice/campvoice-mobile/RELEASE.md).
-
-After you get a hosted APK/TestFlight link, set:
-- `NEXT_PUBLIC_ANDROID_DOWNLOAD_URL`
-- `NEXT_PUBLIC_IOS_DOWNLOAD_URL`
-
+- [AhmadCM01/Camp_Voice01](https://github.com/AhmadCM01/Camp_Voice01)
