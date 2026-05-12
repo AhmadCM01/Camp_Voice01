@@ -2,6 +2,14 @@
 
 CampVoice is a multi-platform student feedback and complaint management system built for Ahmadu Bello University (ABU). This repository contains the backend API, web application, and mobile application in one workspace.
 
+## SDLC Approach
+
+This project follows an Agile, iterative delivery style:
+
+- core requirements were implemented in increments
+- each increment was tested across UI, API, and database layers
+- MVP functionality was prioritized before UX refinements
+
 ## Repository Overview
 
 - `campvoice/backend` - FastAPI backend with SQLAlchemy, Alembic, and PostgreSQL/Supabase support
